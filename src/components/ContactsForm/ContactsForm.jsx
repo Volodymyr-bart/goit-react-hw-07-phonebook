@@ -1,12 +1,15 @@
 import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+
 //
 
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { nanoid } from 'nanoid';
-// import PropTypes from 'prop-types';
+
 import { AddButton, Error, FormStyled, Input } from './ContactsForm.styled';
+import { addContact } from 'redux/operations';
+
+// import { addContact } from 'redux/contactsSlice';
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -14,7 +17,6 @@ const schema = yup.object().shape({
 });
 
 const initialValues = {
-  id: '',
   name: '',
   number: '',
 };

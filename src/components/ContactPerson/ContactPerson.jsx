@@ -1,12 +1,8 @@
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
-//
+
 import PropTypes from 'prop-types';
 import { DeleteButton, PersonStyled } from './ContactPerson.styled';
-
-// {
-//   name, number, id, deleteContact;
-// }
+import { deleteContact } from 'redux/operations';
 
 export const ContactPerson = ({ name, number, id }) => {
   const dispatch = useDispatch();
@@ -27,8 +23,6 @@ export const ContactPerson = ({ name, number, id }) => {
 };
 
 ContactPerson.propTypes = {
-  // deleteContact: PropTypes.func.isRequired,
-
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
