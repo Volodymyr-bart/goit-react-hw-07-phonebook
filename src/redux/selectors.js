@@ -1,27 +1,20 @@
+import { useSelector } from 'react-redux';
+
 export const selectContacts = state => state.contacts.contacts.items;
 export const selectIsLoading = state => state.contacts.contacts.isLoading;
 export const selectError = state => state.contacts.contacts.error;
-export const selectFilter = state => state.contacts.filter;
+// export const selectFilter = state => state.contacts.filter;
+export const selectFilter = state => state.filter.filter;
 
-export const selectVisibleContacts = state => {
-  // Використовуємо інші селектори
-  // const contacts = selectContacts(state);
-  // const Filter = selectFilter(state);
-  //   switch (Filter) {
-  //     case statusFilters.active:
-  //       return tasks.filter(task => !task.completed);
-  //     case statusFilters.completed:
-  //       return tasks.filter(task => task.completed);
-  //     default:
-  //       return tasks;
-  //   }
+export const SelectVisibleContacts = () => {
+  const contacts = useSelector(selectContacts);
+  const list = contacts[0];
+  const filter = useSelector(selectFilter);
+  if (filter) {
+    const normalizedFilter = filter.toLowerCase();
+    return list.filter(item =>
+      item.name.toLowerCase().includes(normalizedFilter)
+    );
+  }
+  return list;
 };
-
-// const getVisibleContacts = () => {
-//   const normalizedFilter = filterData.toLowerCase();
-
-//   return contacts.filter(contact =>
-//     contact.name.toLowerCase().includes(normalizedFilter)
-//   );
-// };
-// const visibleContacts = getVisibleContacts();

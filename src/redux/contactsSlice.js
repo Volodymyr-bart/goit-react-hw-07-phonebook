@@ -1,5 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchContacts } from './operations';
+import { fetchContacts, addContact, deleteContact } from './operations';
+
+const handlePending = state => {
+  state.isLoading = true;
+};
+
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
 
 const contactsSlice = createSlice({
   name: 'contacts',
@@ -9,22 +18,37 @@ const contactsSlice = createSlice({
       isLoading: false,
       error: null,
     },
-    filter: '',
   },
 
   extraReducers: {
-    [fetchContacts.pending](state, action) {
-      state.contacts.isLoading = true;
-    },
+    [fetchContacts.pending]: handlePending,
     [fetchContacts.fulfilled](state, action) {
+      state.contacts.isLoading = false;
+      state.contacts.error = null;
+
+      state.contacts.items.push(action.payload);
+    },
+    [fetchContacts.rejected]: handleRejected,
+    [addContact.pending]: handlePending,
+    [addContact.fulfilled](state, action) {
       state.contacts.isLoading = false;
       state.contacts.error = null;
       state.contacts.items.push(action.payload);
     },
-    [fetchContacts.rejected](state, action) {
+    [addContact.rejected](state, action) {
       state.contacts.isLoading = false;
       state.contacts.error = action.payload;
     },
+    [deleteContact.pending]: handlePending,
+    [deleteContact.fulfilled](state, action) {
+      state.contacts.isLoading = false;
+      state.contacts.error = null;
+      const index = state.contacts.items.findIndex(
+        task => task.id === action.payload
+      );
+      state.contacts.items.splice(index, 1);
+    },
+    [deleteContact.rejected]: handleRejected,
   },
 
   // reducers: {
@@ -45,6 +69,6 @@ const contactsSlice = createSlice({
   // },
 });
 
-export const { addContact, deleteContact, filterContacts } =
-  contactsSlice.actions;
+// export const { addContact, deleteContact, filterContacts } =
+//   contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
