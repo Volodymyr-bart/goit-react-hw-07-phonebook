@@ -23,11 +23,12 @@ export const SelectVisibleContacts = createSelector(
   [selectContacts, selectFilter],
   (contacts, statusFilter) => {
     if (statusFilter) {
+      // console.log('visible contacts', contacts);
       const normalizedFilter = statusFilter.toLowerCase();
-      return contacts[0].filter(item =>
+      return contacts.filter(item =>
         item.name.toLowerCase().includes(normalizedFilter)
       );
     }
-    return contacts[0];
+    return contacts;
   }
 );
