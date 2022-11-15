@@ -21,7 +21,6 @@ export const App = () => {
       <h2>Contacts</h2>
       <Filter />
       {isLoading && !error && <b>Request in progress...</b>}
-      {/* {!isLoading && !error && <ContactList />} */}
       {!isLoading && <ContactList />}
     </>
   );
